@@ -7,6 +7,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
+
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -22,6 +23,7 @@ class User(db.Model, UserMixin):
     def check_password(self, password: str) -> bool:
         return check_password_hash(self.password_hash, password)
 
+
 class Submission(db.Model):
     __tablename__ = 'submissions'
     id = db.Column(db.Integer, primary_key=True)
@@ -33,9 +35,10 @@ class Submission(db.Model):
     status = db.Column(db.String(16), default='submitted', nullable=False)  # 'submitted' | 'reviewed'
     grade = db.Column(db.Integer)
     feedback = db.Column(db.Text)
-    
+
     student = db.relationship('User', foreign_keys=[student_id])
     teacher = db.relationship('User', foreign_keys=[teacher_id])
+
 
 @login_manager.user_loader
 def load_user(user_id):

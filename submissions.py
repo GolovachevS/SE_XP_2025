@@ -1,4 +1,5 @@
-import os, uuid
+import os
+import uuid
 from flask import Blueprint, render_template, redirect, url_for, flash, current_app
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
@@ -10,6 +11,7 @@ from decorators import roles_required
 from flask import send_from_directory
 
 submissions_bp = Blueprint('submissions', __name__, url_prefix='')
+
 
 @submissions_bp.route('/submit', methods=['GET', 'POST'])
 @login_required

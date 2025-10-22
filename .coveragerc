@@ -1,0 +1,12 @@
+[run]
+branch = True
+omit =
+    se_venv/*
+    .venv/*
+    venv/*
+    env/*
+    tests/*
+
+[report]
+show_missing = True
+skip_covered = True
