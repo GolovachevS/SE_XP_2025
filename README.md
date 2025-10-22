@@ -109,7 +109,15 @@ xp/
 - Work in **pairs**, alternating *driver* / *navigator* roles.  
 - Keep commits **small, clear, and frequent**.  
 - Every feature → separate Pull Request with English description.  
-- Maintain code style (`black`, `flake8`).  
+- Maintain code style (`black`, `flake8`).
+
+---
+
+### Planned Feature: Cloud Storage for Homework Files
+
+Currently, all uploaded homework files are stored locally on the server.
+In future iterations, we plan to integrate **cloud storage (AWS S3, Google Cloud Storage, or Yandex Object Storage)**
+to securely store uploaded files and images, improve scalability, and simplify deployment.
 
 
 ---
