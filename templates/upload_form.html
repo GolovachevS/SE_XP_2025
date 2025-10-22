@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Отправить домашку{% endblock %}
+{% block content %}
+<h1>Отправить домашнее задание</h1>
+<form method="post" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+  <div class="mb-3">
+    {{ form.teacher_id.label }} {{ form.teacher_id(class_='form-select') }}
+  </div>
+  <div class="mb-3">
+    {{ form.file.label }} {{ form.file(class_='form-control') }}
+  </div>
+  {{ form.submit(class_='btn btn-primary') }}
+</form>
+{% endblock %}
+
