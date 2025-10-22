@@ -79,3 +79,14 @@ def uploaded_file(filename):
     return send_from_directory(upload_folder, filename, as_attachment=True)
 
 
+@submissions_bp.route('/submissions/mine')
+@login_required
+@roles_required('student')
+def my_submissions():
+    items = (
+        Submission.query
+        .filter(Submission.student_id == current_user.id)
+        .order_by(Submission.submitted_at.desc())
+        .all()
+    )
+    return render_template('my_submissions.html', items=items)
