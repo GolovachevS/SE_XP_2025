@@ -5,7 +5,6 @@ def test_ensure_db_up_to_date_initializes_when_no_migrations(app, monkeypatch, t
     calls = {"init": 0, "migrate": 0, "upgrade": 0}
 
     def fake_exists(path):
-        # Simulate that migrations folder does not exist
         return False
 
     def fake_init():
@@ -22,7 +21,6 @@ def test_ensure_db_up_to_date_initializes_when_no_migrations(app, monkeypatch, t
     monkeypatch.setattr(app_module, "migrate_db", fake_migrate)
     monkeypatch.setattr(app_module, "upgrade", fake_upgrade)
 
-    # Should call init + migrate + upgrade
     app_module.ensure_db_up_to_date(app)
     assert calls == {"init": 1, "migrate": 1, "upgrade": 1}
 
@@ -31,7 +29,6 @@ def test_ensure_db_up_to_date_runs_migrate_and_upgrade_when_migrations_exist(app
     calls = {"init": 0, "migrate": 0, "upgrade": 0}
 
     def fake_exists(path):
-        # Simulate that migrations folder exists
         return True
 
     def fake_init():
@@ -48,6 +45,5 @@ def test_ensure_db_up_to_date_runs_migrate_and_upgrade_when_migrations_exist(app
     monkeypatch.setattr(app_module, "migrate_db", fake_migrate)
     monkeypatch.setattr(app_module, "upgrade", fake_upgrade)
 
-    # Should call migrate + upgrade only
     app_module.ensure_db_up_to_date(app)
     assert calls == {"init": 0, "migrate": 1, "upgrade": 1}

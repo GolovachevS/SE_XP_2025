@@ -10,7 +10,7 @@ from submissions import submissions_bp
 
 
 load_dotenv()
-migrator = Migrate()  # объект для init_app
+migrator = Migrate()
 
 
 def ensure_db_up_to_date(app):

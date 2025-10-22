@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), unique=True, nullable=False)
     name = db.Column(db.String(200), nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.String(16), nullable=False, default='student')  # 'student' | 'teacher'
+    role = db.Column(db.String(16), nullable=False, default='student')
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     def set_password(self, password: str):
@@ -32,7 +32,7 @@ class Submission(db.Model):
     stored_filename = db.Column(db.String(300), nullable=False)
     original_filename = db.Column(db.String(255), nullable=False)
     submitted_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    status = db.Column(db.String(16), default='submitted', nullable=False)  # 'submitted' | 'reviewed'
+    status = db.Column(db.String(16), default='submitted', nullable=False)
     grade = db.Column(db.Integer)
     feedback = db.Column(db.Text)
 
