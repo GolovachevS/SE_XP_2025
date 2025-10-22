@@ -4,26 +4,14 @@ from dotenv import load_dotenv
 import os
 from flask_migrate import Migrate, upgrade, migrate as migrate_db, init
 
-from flask_migrate import upgrade, migrate, init
-import os
-
-from flask_migrate import Migrate
-
-from models import db, login_manager
-
 from models import db, login_manager
 from auth import auth_bp
-
-from submissions import submissions_bp  # ↓ рядом с auth_bp
-
-
+from submissions import submissions_bp
 
 
 load_dotenv()
-migrator = Migrate()
+migrator = Migrate()  # объект для init_app
 
-
-migrator = Migrate()   # объект для init_app
 
 def ensure_db_up_to_date(app):
     """Автоматически инициализирует и применяет миграции при запуске"""
@@ -41,6 +29,7 @@ def ensure_db_up_to_date(app):
             except Exception as e:
                 print(">> [DB] migration failed:", e)
 
+
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'secret')
@@ -49,7 +38,7 @@ def create_app():
 
     db.init_app(app)
     login_manager.init_app(app)
-    migrator.init_app(app, db)   # вот здесь используем объект migrator
+    migrator.init_app(app, db)
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(submissions_bp)
@@ -63,7 +52,9 @@ def create_app():
 
     return app
 
+
 app = create_app()
+
 
 if __name__ == '__main__':
     ensure_db_up_to_date(app)

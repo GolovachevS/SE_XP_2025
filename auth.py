@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required
 from models import db, User
 from forms import RegisterForm, LoginForm
 
 auth_bp = Blueprint('auth', __name__)
+
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -21,6 +22,7 @@ def register():
         return redirect(url_for('auth.login'))
     return render_template('register.html', form=form, role=role)
 
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -32,6 +34,7 @@ def login():
         login_user(user)
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
+
 
 @auth_bp.route('/logout')
 @login_required

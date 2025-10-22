@@ -7,8 +7,8 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from app import create_app
-from models import db
+from app import create_app  # noqa: E402
+from models import db  # noqa: E402
 
 
 @pytest.fixture()
