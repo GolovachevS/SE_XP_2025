@@ -8,6 +8,7 @@ if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
 from app import create_app
+from models import db
 
 
 @pytest.fixture()
@@ -18,8 +19,13 @@ def app():
     application.config.update(
         TESTING=True,
         WTF_CSRF_ENABLED=False,
+        SQLALCHEMY_DATABASE_URI="sqlite:///:memory:",
     )
+    with application.app_context():
+        db.create_all()
     yield application
+    with application.app_context():
+        db.drop_all()
 
 
 @pytest.fixture()
