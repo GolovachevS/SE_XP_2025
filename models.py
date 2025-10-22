@@ -22,6 +22,18 @@ class User(db.Model, UserMixin):
     def check_password(self, password: str) -> bool:
         return check_password_hash(self.password_hash, password)
 
+class Submission(db.Model):
+    __tablename__ = 'submissions'
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    stored_filename = db.Column(db.String(300), nullable=False)
+    original_filename = db.Column(db.String(255), nullable=False)
+    submitted_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    student = db.relationship('User', foreign_keys=[student_id])
+    teacher = db.relationship('User', foreign_keys=[teacher_id])
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

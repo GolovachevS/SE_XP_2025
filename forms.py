@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms import SelectField, FileField
+from wtforms.validators import DataRequired
 
 class RegisterForm(FlaskForm):
     name = StringField('Имя', validators=[DataRequired(), Length(max=200)])
@@ -14,3 +16,9 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     submit = SubmitField('Войти')
+    
+
+class HWUploadForm(FlaskForm):
+    teacher_id = SelectField('Преподаватель', coerce=int, validators=[DataRequired()])
+    file = FileField('Файл с домашкой', validators=[DataRequired()])
+    submit = SubmitField('Отправить')
