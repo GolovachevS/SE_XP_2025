@@ -1,18 +1,29 @@
 {% extends 'base.html' %}
 {% block title %}Проверка работы{% endblock %}
 {% block content %}
-<h1>Проверка: {{ sub.assignment.title }}</h1>
-<p><strong>Студент:</strong> {{ sub.student.name }}</p>
-<p><a href="{{ url_for('submissions.uploaded_file', filename=sub.stored_filename) }}" class="btn btn-outline-secondary">Скачать файл</a></p>
+<h2>Проверка работы студента: {{ sub.student.name }}</h2>
 
-<form method="post">
+<p><strong>Файл:</strong>
+  <a href="{{ url_for('submissions.uploaded_file', filename=sub.stored_filename) }}">
+    {{ sub.original_filename }}
+  </a>
+</p>
+
+<form method="POST">
   {{ form.hidden_tag() }}
+
   <div class="mb-3">
-    {{ form.grade.label }} {{ form.grade(class_='form-control', value=sub.grade or '') }}
+    {{ form.grade.label(class="form-label") }}
+    {{ form.grade(class="form-control", placeholder="Введите оценку (0-100)") }}
   </div>
+
   <div class="mb-3">
-    {{ form.feedback.label }} {{ form.feedback(class_='form-control', rows=4, value=sub.feedback or '') }}
+    {{ form.feedback.label(class="form-label") }}
+    {{ form.feedback(class="form-control", rows=4, placeholder="Комментарий к работе") }}
   </div>
-  {{ form.submit(class_='btn btn-primary') }}
+
+  <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+  <a href="{{ url_for('submissions.all_submissions') }}" class="btn btn-secondary">Назад</a>
 </form>
 {% endblock %}
+

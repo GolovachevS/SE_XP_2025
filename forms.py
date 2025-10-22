@@ -2,6 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from wtforms import SelectField, FileField
+from wtforms import TextAreaField, IntegerField, SubmitField
+from wtforms.validators import Optional, NumberRange
 from wtforms.validators import DataRequired
 
 class RegisterForm(FlaskForm):
@@ -27,3 +29,10 @@ class ReviewForm(FlaskForm):
     grade = StringField('Оценка', validators=[DataRequired()])
     feedback = TextAreaField('Комментарий', validators=[Length(max=2000)])
     submit = SubmitField('Сохранить отзыв')
+    
+
+class ReviewForm(FlaskForm):
+    grade = IntegerField('Оценка', validators=[Optional(), NumberRange(min=0, max=100)])
+    feedback = TextAreaField('Комментарий', validators=[Optional()])
+    submit = SubmitField('Сохранить')
+

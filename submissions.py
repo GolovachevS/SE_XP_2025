@@ -59,6 +59,7 @@ def all_submissions():
 def review_submission(sid):
     sub = Submission.query.get_or_404(sid)
     form = ReviewForm(obj=sub)
+
     if form.validate_on_submit():
         sub.grade = form.grade.data
         sub.feedback = form.feedback.data
@@ -66,9 +67,8 @@ def review_submission(sid):
         db.session.commit()
         flash('Оценка и комментарий сохранены', 'success')
         return redirect(url_for('submissions.all_submissions'))
+
     return render_template('review_submission.html', sub=sub, form=form)
-
-
 
 
 @submissions_bp.route('/uploads/<path:filename>')
