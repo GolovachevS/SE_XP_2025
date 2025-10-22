@@ -12,7 +12,7 @@ from models import db  # noqa: E402
 
 
 @pytest.fixture()
-def app():
+def app(tmp_path):
     # Configure app for testing
     os.environ.setdefault("SECRET_KEY", "test-secret")
     application = create_app()
@@ -20,6 +20,7 @@ def app():
         TESTING=True,
         WTF_CSRF_ENABLED=False,
         SQLALCHEMY_DATABASE_URI="sqlite:///:memory:",
+        UPLOAD_FOLDER=str(tmp_path),
     )
     with application.app_context():
         db.create_all()
