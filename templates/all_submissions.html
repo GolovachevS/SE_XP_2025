@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Все отправленные работы{% endblock %}
+{% block content %}
+<h1>Все отправленные работы</h1>
+
+<table class="table table-striped align-middle">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Студент</th>
+      <th>Файл</th>
+      <th>Дата</th>
+      <th>Оценка</th>
+      <th>Комментарий</th>
+      <th>Статус</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in items %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ s.student.name }}</td>
+        <td>
+          <a href="{{ url_for('submissions.uploaded_file', filename=s.stored_filename) }}" class="link-primary">
+            {{ s.original_filename }}
+          </a>
+        </td>
+        <td>{{ s.submitted_at.strftime("%Y-%m-%d %H:%M") }}</td>
+        <td>{{ s.grade or '—' }}</td>
+        <td>{{ s.feedback or '—' }}</td>
+        <td>
+          {% if s.status == 'reviewed' %}
+            <span class="badge bg-success">Проверено</span>
+          {% else %}
+            <span class="badge bg-secondary">На проверке</span>
+          {% endif %}
+        </td>
+        <td>
+          <a href="{{ url_for('submissions.review_submission', sid=s.id) }}" class="btn btn-sm btn-outline-primary">
+            Проверить
+          </a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if not items %}
+  <p class="text-muted mt-3">Пока нет загруженных работ.</p>
+{% endif %}
+{% endblock %}

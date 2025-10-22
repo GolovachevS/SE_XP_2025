@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Проверка работы{% endblock %}
+{% block content %}
+<h2>Проверка работы студента: {{ sub.student.name }}</h2>
+
+<p><strong>Файл:</strong>
+  <a href="{{ url_for('submissions.uploaded_file', filename=sub.stored_filename) }}">
+    {{ sub.original_filename }}
+  </a>
+</p>
+
+<form method="POST">
+  {{ form.hidden_tag() }}
+
+  <div class="mb-3">
+    {{ form.grade.label(class="form-label") }}
+    {{ form.grade(class="form-control", placeholder="Введите оценку (0-100)") }}
+  </div>
+
+  <div class="mb-3">
+    {{ form.feedback.label(class="form-label") }}
+    {{ form.feedback(class="form-control", rows=4, placeholder="Комментарий к работе") }}
+  </div>
+
+  <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+  <a href="{{ url_for('submissions.all_submissions') }}" class="btn btn-secondary">Назад</a>
+</form>
+{% endblock %}
+

@@ -30,7 +30,10 @@ class Submission(db.Model):
     stored_filename = db.Column(db.String(300), nullable=False)
     original_filename = db.Column(db.String(255), nullable=False)
     submitted_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-
+    status = db.Column(db.String(16), default='submitted', nullable=False)  # 'submitted' | 'reviewed'
+    grade = db.Column(db.Integer)
+    feedback = db.Column(db.Text)
+    
     student = db.relationship('User', foreign_keys=[student_id])
     teacher = db.relationship('User', foreign_keys=[teacher_id])
 
