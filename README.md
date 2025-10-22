@@ -2,6 +2,8 @@
 
 A lightweight web platform for collecting and reviewing homework assignments.  
 Built with **Flask**, following XP principles in a pair-programming setup.
+## Demo video
+![Demo](assets/demo.gif)
 
 ## 🚀 Features
 
@@ -52,7 +54,29 @@ python app.py
 ```
 App will be available at: [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
----
+### Run test
+Without coverage:
+```bash
+pytest -q
+```
+With coverage:
+```bash
+pytest --cov=.
+```
+Example run:
+```
+---------- coverage: platform linux, python 3.10.12-final-0 ----------
+Name             Stmts   Miss Branch BrPart  Cover   Missing
+------------------------------------------------------------
+app.py              44      4      6      1    90%   29-30, 60-61
+auth.py             37      3      8      2    89%   23, 32-33
+decorators.py       14      5      4      0    50%   10-14
+submissions.py      60     31      4      0    45%   20-42, 49-55, 62-73, 80-81, 88-94
+------------------------------------------------------------
+TOTAL              212     43     22      3    77%
+
+2 files skipped due to complete coverage.
+```
 
 ##  Testing
 
