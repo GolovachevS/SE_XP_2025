@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Проверка работы{% endblock %}
+{% block content %}
+<h1>Проверка: {{ sub.assignment.title }}</h1>
+<p><strong>Студент:</strong> {{ sub.student.name }}</p>
+<p><a href="{{ url_for('submissions.uploaded_file', filename=sub.stored_filename) }}" class="btn btn-outline-secondary">Скачать файл</a></p>
+
+<form method="post">
+  {{ form.hidden_tag() }}
+  <div class="mb-3">
+    {{ form.grade.label }} {{ form.grade(class_='form-control', value=sub.grade or '') }}
+  </div>
+  <div class="mb-3">
+    {{ form.feedback.label }} {{ form.feedback(class_='form-control', rows=4, value=sub.feedback or '') }}
+  </div>
+  {{ form.submit(class_='btn btn-primary') }}
+</form>
+{% endblock %}

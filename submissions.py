@@ -3,8 +3,11 @@ from flask import Blueprint, render_template, redirect, url_for, flash, current_
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from models import db, Submission, User
-from forms import HWUploadForm
+from forms import HWUploadForm, ReviewForm
 from decorators import roles_required
+
+
+from flask import send_from_directory
 
 submissions_bp = Blueprint('submissions', __name__, url_prefix='')
 
@@ -35,3 +38,44 @@ def upload_homework():
         return redirect(url_for('submissions.upload_homework'))
 
     return render_template('upload_form.html', form=form)
+
+
+@submissions_bp.route('/submissions/all')
+@login_required
+@roles_required('teacher')
+def all_submissions():
+    items = (
+        Submission.query
+        .filter(Submission.teacher_id == current_user.id)
+        .order_by(Submission.submitted_at.desc())
+        .all()
+    )
+    return render_template('all_submissions.html', items=items)
+
+
+@submissions_bp.route('/submissions/<int:sid>/review', methods=['GET', 'POST'])
+@login_required
+@roles_required('teacher')
+def review_submission(sid):
+    sub = Submission.query.get_or_404(sid)
+    form = ReviewForm(obj=sub)
+    if form.validate_on_submit():
+        sub.grade = form.grade.data
+        sub.feedback = form.feedback.data
+        sub.status = 'reviewed'
+        db.session.commit()
+        flash('Оценка и комментарий сохранены', 'success')
+        return redirect(url_for('submissions.all_submissions'))
+    return render_template('review_submission.html', sub=sub, form=form)
+
+
+
+
+@submissions_bp.route('/uploads/<path:filename>')
+@login_required
+def uploaded_file(filename):
+    """Позволяет скачивать/просматривать отправленные файлы"""
+    upload_folder = current_app.config.get('UPLOAD_FOLDER', 'uploads')
+    return send_from_directory(upload_folder, filename, as_attachment=True)
+
+
