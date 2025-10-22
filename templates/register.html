@@ -8,6 +8,10 @@
   <div class="mb-3">{{ form.email.label }} {{ form.email(class_='form-control') }}</div>
   <div class="mb-3">{{ form.password.label }} {{ form.password(class_='form-control') }}</div>
   <div class="mb-3">{{ form.confirm.label }} {{ form.confirm(class_='form-control') }}</div>
+  <div class="form-check mb-3">
+  {{ form.is_teacher(class_='form-check-input') }}
+  {{ form.is_teacher.label(class_='form-check-label') }}
+</div>
   {{ form.submit(class_='btn btn-primary') }}
 </form>
 <p class="mt-2">Нужно зарегистрировать преподавателя? Открой <code>/register?role=teacher</code>.</p>

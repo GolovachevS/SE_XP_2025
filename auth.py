@@ -8,7 +8,7 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-    role = request.args.get('role', 'student')  # /register?role=teacher для создания препода
+    role = 'teacher' if form.is_teacher.data else 'student'
     if form.validate_on_submit():
         if User.query.filter_by(email=form.email.data).first():
             flash('Email уже зарегистрирован', 'warning')
